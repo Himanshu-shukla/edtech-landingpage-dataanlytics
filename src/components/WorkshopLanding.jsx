@@ -21,22 +21,23 @@ const WorkshopLanding = () => {
       <div className="relative z-10 max-w-7xl mx-auto w-full mt-10">
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-14 max-w-4xl mx-auto"
-        >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight mb-6">
-            Kill The Guesswork.
-            <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-600">
-              Master Professional Analytics.
-            </span>
-          </h1>
+  initial={{ opacity: 0, y: 16 }}
+  animate={{ opacity: 1, y: 0 }}
+  className="text-center mb-14 max-w-4xl mx-auto"
+>
+  <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight mb-6">
+    Kill The Guesswork.
+    {/* Removed className="hidden md:block" so it breaks on all devices now */}
+    <br />
+    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-600">
+      Master Professional Analytics.
+    </span>
+  </h1>
 
-          <p className="text-neutral-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
-            Stop drowning in messy spreadsheets. We build 3+ production-ready dashboards live — Sales Forecasting, Marketing ROI, and Customer Churn.
-          </p>
-        </motion.div>
+  <p className="text-neutral-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+    Stop drowning in messy spreadsheets. We build 3+ production-ready dashboards live — Sales Forecasting, Marketing ROI, and Customer Churn.
+  </p>
+</motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
           <div className="lg:col-span-7 flex flex-col gap-8">

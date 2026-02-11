@@ -38,8 +38,8 @@ const BootcampAgenda = () => {
 
                         <div className="grid grid-cols-2 gap-4">
                             {[
-                                { icon: Calendar, text: "07 - 08 Feb 2026", label: "Date" },
-                                { icon: Clock, text: "11 AM GMT", label: "Time" },
+                                // { icon: Calendar, text: "07 - 08 Feb 2026", label: "Date" },
+                                // { icon: Clock, text: "11 AM GMT", label: "Time" },
                                 { icon: BarChart3, text: "Industrial Projects", label: "Training" },
                                 { icon: MessageCircle, text: "Live Lab Support", label: "Guidance" },
                             ].map((item, idx) => (

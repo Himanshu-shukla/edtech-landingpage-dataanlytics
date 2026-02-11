@@ -156,9 +156,8 @@ const FoundryHero = () => {
           transition={{ delay: 0.3 }}
           className="text-3xl md:text-5xl font-black text-neutral-800 tracking-tight mb-8"
         >
-          100% Placement Support &{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-purple-600">
-            Upto $200K Avg. Salary
+            Build your six figure in 6 months
           </span>{" "}
         </motion.h2>
 

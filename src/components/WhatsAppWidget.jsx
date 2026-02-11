@@ -4,7 +4,7 @@ import { MessageCircle } from 'lucide-react';
 
 const WhatsAppWidget = () => {
   // Your Bot's Number
-  const phoneNumber = "919810249170"; 
+  const phoneNumber = "447441477106"; 
   // Trigger Word that wakes up your bot (matches your bot.js logic)
   const message = "Hi"; 
   

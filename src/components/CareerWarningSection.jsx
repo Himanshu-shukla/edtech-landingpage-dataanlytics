@@ -78,7 +78,7 @@ const CareerWarningSection = () => {
         </div>
 
         <motion.div variants={itemVariants}>
-          <a href="https://wa.me/919810249170?text=Hi%2C%20I%20want%20to%20secure%20my%20career%20with%20Modern%20Data%20Analytics." target="_blank" rel="noreferrer">
+          <a href="https://wa.me/447441477106?text=Hi%2C%20I%20want%20to%20secure%20my%20career%20with%20Modern%20Data%20Analytics." target="_blank" rel="noreferrer">
             <button className="group relative inline-flex h-14 md:h-16 items-center justify-center overflow-hidden rounded-xl bg-emerald-600 px-10 font-black text-white transition-all duration-300 hover:scale-[1.03] hover:bg-emerald-700 shadow-lg shadow-emerald-200">
               <span className="relative flex items-center gap-3 text-lg md:text-xl">
                 Secure Your Career Today

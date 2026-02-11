@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, Clock, Calendar, BarChart3, Database, TrendingUp } from 'lucide-react';
 
 const FoundryHero = () => {
+  // Added state to ensure the button click works without errors
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-<section className="relative min-h-[70vh] bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden">
+    <section className="relative min-h-[70vh] bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden">
       {/* Animated Background Layer 1: Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -120,20 +123,6 @@ const FoundryHero = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto text-center pt-16">
-        {/* Top Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex justify-center mb-8"
-        >
-          <div className="inline-flex items-center gap-3 px-8 py-3 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-sm md:text-base font-black tracking-[0.3em] uppercase mb-8 shadow-sm backdrop-blur-sm">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
-            </span>
-            2 day bootcamp for data analytics
-          </div>
-        </motion.div>
 
         {/* Attention Pill */}
         <motion.div
@@ -143,7 +132,7 @@ const FoundryHero = () => {
           className="mb-8 inline-block"
         >
           <div className="px-6 py-2 rounded-lg bg-red-50 border border-red-100 text-red-600 font-bold text-sm md:text-base tracking-wide backdrop-blur-sm">
-            Attention: Aspiring Analysts, Product Managers, Founders & Data Enthusiasts
+            Job Ready in 6 Months • Become a Professional
           </div>
         </motion.div>
 
@@ -154,9 +143,9 @@ const FoundryHero = () => {
           transition={{ delay: 0.2 }}
           className="text-5xl md:text-8xl font-black tracking-tighter leading-[1.1] mb-4 text-neutral-900"
         >
-          Turn Raw Information Into <br /> 
+          Launch Your Career in <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 animate-gradient">
-            Profitable Business Intelligence
+            Data Analytics
           </span>
         </motion.h1>
 
@@ -167,11 +156,10 @@ const FoundryHero = () => {
           transition={{ delay: 0.3 }}
           className="text-3xl md:text-5xl font-black text-neutral-800 tracking-tight mb-8"
         >
-          Master{"  "}
+          100% Placement Support &{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-purple-600">
-            Advanced Data Analytics
+            Upto $200K Avg. Salary
           </span>{" "}
-          In One Comprehensive Program
         </motion.h2>
 
         {/* Sub Description */}
@@ -181,8 +169,53 @@ const FoundryHero = () => {
           transition={{ delay: 0.4 }}
           className="text-neutral-600 text-lg md:text-xl font-medium max-w-3xl mx-auto leading-relaxed mb-12"
         >
-          Go beyond spreadsheets. Learn to clean, visualize, and model complex datasets using Python, SQL, and PowerBI. Build predictive dashboards that drive growth and solve real-world industry challenges.
+          Master the industry's most in-demand tech stack including Python, SQL, and Machine Learning. Get trained by experts and become job-ready in just 6 months.
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="flex flex-col items-center relative py-4 md:py-6"
+        >
+          <motion.button
+            onClick={() => setIsModalOpen(true)}
+            whileHover={{ scale: 1.02, y: -4 }}
+            whileTap={{ scale: 0.98, y: 6 }}
+            className="relative w-full max-w-3xl bg-gradient-to-b from-[#00d647] to-[#009933] text-white text-xl md:text-3xl font-black py-6 md:py-7 px-6 rounded-3xl shadow-[0_12px_0_rgb(0,100,30),0_20px_40px_rgba(0,0,0,0.15)] transition-all flex flex-col md:flex-row items-center justify-center overflow-hidden border-t border-green-300/30 cursor-pointer"
+          >
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12"
+              initial={{ x: '-100%' }}
+              whileHover={{ x: '100%' }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            />
+            <span className="relative z-10 text-white text-2xl md:text-3xl px-5 py-2 rounded-xl font-extrabold drop-shadow-[0_3px_3px_rgba(0,0,0,0.6)] mr-3 md:mr-4">
+              Register for Free
+            </span>
+            <span className="relative z-10 bg-yellow-400 text-black px-3 py-1 rounded-lg text-lg md:text-xl font-extrabold -rotate-2 shadow-sm border-2 border-black/10">
+              JOB READY IN 6 MONTHS
+            </span>
+          </motion.button>
+
+          {/* Progress Bar Component */}
+          <div className="w-full max-w-lg mt-6 md:mt-8 relative z-10">
+            <div className="flex gap-1.5 h-3">
+              {[...Array(20)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scaleY: 0 }}
+                  whileInView={{ opacity: 1, scaleY: 1 }}
+                  transition={{ delay: i * 0.03, type: "spring" }}
+                  className={`flex-1 rounded-full ${i < 17 ? 'bg-gradient-to-t from-red-600 to-red-500 shadow-sm' : 'bg-neutral-200'}`}
+                />
+              ))}
+            </div>
+            <p className="text-red-600 text-center font-bold text-xs md:text-sm mt-3 uppercase tracking-widest animate-pulse">
+              🔥 Batch Status: 17/20 Seats Claimed
+            </p>
+          </div>
+        </motion.div>
       </div>
 
       <style jsx>{`

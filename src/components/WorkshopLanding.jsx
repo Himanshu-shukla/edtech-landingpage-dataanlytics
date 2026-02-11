@@ -11,31 +11,22 @@ const WorkshopLanding = () => {
 
   return (
     <section className="relative pb-16 md:pb-20 bg-neutral-50 text-neutral-900 font-sans overflow-hidden px-4 md:px-8">
-      
+
       {/* Top-attached badge strip */}
-      <div className="relative z-20 flex justify-center pt-4">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-neutral-200 text-neutral-700 text-sm font-semibold shadow-sm">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          Live 2-Day Data Implementation Bootcamp
-        </div>
-      </div>
 
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#fff_70%,transparent_100%)]"></div>
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-500/5 blur-[130px] pointer-events-none rounded-full" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] pointer-events-none rounded-full" />
 
       <div className="relative z-10 max-w-7xl mx-auto w-full mt-10">
-        
+
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-14 max-w-4xl mx-auto"
         >
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight mb-6">
-            Kill The Guesswork.  
+            Kill The Guesswork.
             <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-600">
               Master Professional Analytics.
@@ -49,12 +40,14 @@ const WorkshopLanding = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
           <div className="lg:col-span-7 flex flex-col gap-8">
-            <div className="relative rounded-2xl overflow-hidden bg-white border border-neutral-200 shadow-xl aspect-video group">
+            {/* Updated Container: Added 'transform-gpu' to enforce clipping */}
+            <div className="relative rounded-2xl overflow-hidden bg-white border border-neutral-200 shadow-xl aspect-video group transform-gpu">
               {/* Image placeholder updated for data context */}
               <img
-                src="https://static.wixstatic.com/media/3cd83b_7e0892095f9046c3b88599426f8d120a~mv2.gif"
+                src="https://cdn.dribbble.com/userupload/42070034/file/original-b8cd7ae9ac9164c57b6f930d8612699d.gif"
                 alt="Building Advanced Data Dashboards"
-                className="w-full h-full object-cover"
+                // Updated Class: Added 'rounded-2xl' to match parent border radius
+                className="w-full h-full object-cover rounded-2xl"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center shadow-lg">
@@ -76,24 +69,60 @@ const WorkshopLanding = () => {
               <BenefitItem><strong>Predictive Sales Engine:</strong> Build models that forecast next month’s revenue.</BenefitItem>
               <BenefitItem><strong>Automated SQL Pipelines:</strong> Clean and transform data while you sleep.</BenefitItem>
               <BenefitItem><strong>Executive Reporting:</strong> Design board-ready, interactive PowerBI visuals.</BenefitItem>
-              <BenefitItem border={false}><strong>Consulting Blueprint:</strong> Sell analytics services for ₹50k+/month.</BenefitItem>
+              <BenefitItem border={false}><strong>Consulting Blueprint:</strong> Sell analytics services for £50k+/month.</BenefitItem>
 
-              <motion.button 
-                onClick={() => setIsModalOpen(true)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full h-16 rounded-xl bg-emerald-600 text-white font-black text-lg flex items-center justify-center gap-2 hover:bg-emerald-700 transition cursor-pointer overflow-hidden relative"
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center relative py-4 md:py-6"
               >
-                 <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
+                <motion.button
+                  onClick={() => setIsModalOpen(true)}
+                  whileHover={{ scale: 1.02, y: -4 }}
+                  whileTap={{ scale: 0.98, y: 6 }}
+                  className="relative w-full max-w-3xl bg-gradient-to-b from-[#00d647] to-[#009933] text-white text-xl md:text-3xl font-black py-6 md:py-7 px-6 rounded-3xl shadow-[0_12px_0_rgb(0,100,30),0_20px_40px_rgba(0,0,0,0.15)] transition-all flex flex-col md:flex-row items-center justify-center overflow-hidden border-t border-green-300/30 cursor-pointer"
+                >
+                  {/* Shimmer Effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12"
                     initial={{ x: '-100%' }}
                     whileHover={{ x: '100%' }}
-                    transition={{ duration: 0.5 }}
-                />
-                <Sparkles className="w-5 h-5 text-yellow-300 fill-yellow-300" />
-                Enroll for ₹999
-                <ArrowRight className="w-6 h-6" />
-              </motion.button>
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                  />
+
+                  {/* Text and Icon Container */}
+                  <div className="relative z-10 flex items-center justify-center gap-2 md:gap-3 mb-2 md:mb-0 md:mr-4">
+                    <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-yellow-300 fill-yellow-300 animate-pulse" />
+                    <span className="text-white text-2xl md:text-3xl font-extrabold drop-shadow-[0_3px_3px_rgba(0,0,0,0.6)]">
+                      Register
+                    </span>
+                  </div>
+
+                  {/* Badge */}
+                  <span className="relative z-10 bg-yellow-400 text-black px-3 py-1 rounded-lg text-lg md:text-xl font-extrabold -rotate-2 shadow-sm border-2 border-black/10">
+                    FULL BUNDLE INCLUDED
+                  </span>
+                </motion.button>
+
+                {/* Progress Bar Component */}
+                <div className="w-full max-w-lg mt-6 md:mt-8 relative z-10">
+                  <div className="flex gap-1.5 h-3">
+                    {[...Array(20)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scaleY: 0 }}
+                        whileInView={{ opacity: 1, scaleY: 1 }}
+                        transition={{ delay: i * 0.03, type: "spring" }}
+                        className={`flex-1 rounded-full ${i < 17 ? 'bg-gradient-to-t from-red-600 to-red-500 shadow-sm' : 'bg-neutral-200'}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-red-600 text-center font-bold text-xs md:text-sm mt-3 uppercase tracking-widest animate-pulse">
+                    🔥 Batch Status: 17/20 Seats Claimed
+                  </p>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>

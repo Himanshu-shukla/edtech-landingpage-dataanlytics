@@ -137,30 +137,50 @@ const ProgramsSection = () => {
         </motion.div>
 
         {/* Updated CTA */}
-        <div className="mt-6 md:mt-10 flex flex-col items-center">
-            <motion.button
-              onClick={() => setIsModalOpen(true)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full max-w-lg bg-gradient-to-b from-[#00d647] to-[#009933] text-white py-6 px-8 rounded-3xl font-black text-xl md:text-2xl shadow-[0_10px_0_rgb(0,100,30)] transition-all cursor-pointer overflow-hidden relative"
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
-                initial={{ x: '-100%' }}
-                whileHover={{ x: '100%' }}
-                transition={{ duration: 0.5 }}
-              />
-              
-              <div className="flex items-center justify-center gap-3">
-                <span>Claim Your Analytics Seat — £99</span>
-                <span className="text-green-900 line-through decoration-red-600 decoration-2 opacity-60 text-base">£299</span>
-              </div>
-              
-              <div className="text-[10px] md:text-xs text-emerald-100 font-bold uppercase tracking-widest mt-1 opacity-80">
-                Limited: 15 Seats Remaining • Secure Registration
-              </div>
-            </motion.button>
-        </div>
+        <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="flex flex-col items-center relative py-4 md:py-6"
+                >
+                    <motion.button
+                        onClick={() => setIsModalOpen(true)}
+                        whileHover={{ scale: 1.02, y: -4 }}
+                        whileTap={{ scale: 0.98, y: 6 }}
+                        className="relative w-full max-w-3xl bg-gradient-to-b from-[#00d647] to-[#009933] text-white text-xl md:text-3xl font-black py-6 md:py-7 px-6 rounded-3xl shadow-[0_12px_0_rgb(0,100,30),0_20px_40px_rgba(0,0,0,0.15)] transition-all flex flex-col md:flex-row items-center justify-center overflow-hidden border-t border-green-300/30 cursor-pointer"
+                    >
+                        <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12"
+                            initial={{ x: '-100%' }}
+                            whileHover={{ x: '100%' }}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                        />
+                        <span className="relative z-10 text-white text-2xl md:text-3xl px-5 py-2 rounded-xl font-extrabold drop-shadow-[0_3px_3px_rgba(0,0,0,0.6)] mr-3 md:mr-4">
+                            Claim Your Spot for Free
+                        </span>
+                        <span className="relative z-10 bg-yellow-400 text-black px-3 py-1 rounded-lg text-lg md:text-xl font-extrabold -rotate-2 shadow-sm border-2 border-black/10">
+                            FULL BUNDLE INCLUDED
+                        </span>
+                    </motion.button>
+
+                    {/* Progress Bar Component */}
+                    <div className="w-full max-w-lg mt-6 md:mt-8 relative z-10">
+                        <div className="flex gap-1.5 h-3">
+                            {[...Array(20)].map((_, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, scaleY: 0 }}
+                                    whileInView={{ opacity: 1, scaleY: 1 }}
+                                    transition={{ delay: i * 0.03, type: "spring" }}
+                                    className={`flex-1 rounded-full ${i < 17 ? 'bg-gradient-to-t from-red-600 to-red-500 shadow-sm' : 'bg-neutral-200'}`}
+                                />
+                            ))}
+                        </div>
+                        <p className="text-red-600 text-center font-bold text-xs md:text-sm mt-3 uppercase tracking-widest animate-pulse">
+                            🔥 Batch Status: 17/20 Seats Claimed
+                        </p>
+                    </div>
+                </motion.div>
       </div>
 
       <RegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

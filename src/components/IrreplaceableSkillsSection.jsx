@@ -40,10 +40,6 @@ const IrreplaceableSkillsSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-700 text-sm font-bold mb-6 shadow-sm">
-            <Cpu className="w-4 h-4" />
-            <span>Your 2-Day Data Mastery</span>
-          </div>
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-neutral-900 mb-6 leading-tight tracking-tight">
             From "Data Curious" to <br />

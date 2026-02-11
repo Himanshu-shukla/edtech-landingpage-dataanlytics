@@ -68,10 +68,7 @@ const BonusSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-bold uppercase tracking-widest mb-4 shadow-sm">
-            <Gift className="w-4 h-4" />
-            <span>Total Value: ₹30,000+ In Career Assets</span>
-          </div>
+          
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-neutral-900 mb-6 leading-tight tracking-tight">
             Included <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-600">FREE</span> With This Batch
           </h2>

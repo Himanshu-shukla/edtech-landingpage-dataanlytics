@@ -169,7 +169,7 @@ const FoundryHero = () => {
         >
           Master{"  "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-purple-600">
-            Advanced Data Science
+            Advanced Data Analytics
           </span>{" "}
           In One Comprehensive Program
         </motion.h2>

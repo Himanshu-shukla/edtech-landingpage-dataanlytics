@@ -115,8 +115,9 @@ const BootcampAgenda = () => {
                             whileHover={{ x: '100%' }}
                             transition={{ duration: 0.5, ease: "easeInOut" }}
                         />
-                        <span className="relative z-10">Claim Analytics Seat: £99</span>
-                        <span className="relative z-10 text-green-900 line-through decoration-red-600 decoration-4 opacity-70 text-2xl mx-2">£299</span>
+                        <span className="relative z-10 text-white text-2xl md:text-3xl px-5 py-2 rounded-xl font-extrabold drop-shadow-[0_3px_3px_rgba(0,0,0,0.6)] mr-3 md:mr-4">
+                            Register for Free
+                        </span>
                         <span className="relative z-10 bg-yellow-400 text-black px-3 py-1 rounded-lg text-lg md:text-xl font-extrabold -rotate-2 shadow-sm border-2 border-black/10">
                             FULL BUNDLE INCLUDED
                         </span>
@@ -142,9 +143,9 @@ const BootcampAgenda = () => {
                 </motion.div>
             </div>
 
-            <RegistrationModal 
-                isOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)} 
+            <RegistrationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
             />
         </section>
     );

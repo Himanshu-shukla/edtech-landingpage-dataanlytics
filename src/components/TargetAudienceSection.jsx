@@ -13,6 +13,12 @@ import {
 import "react-phone-input-2/lib/style.css";
 import RegistrationModal from './RegistrationModal';
 
+// --- IMPORT YOUR LOCAL IMAGES HERE ---
+// Ensure the file names and paths match exactly what is on your computer
+import marketAnalysisImg from '../assets/32440.jpg';
+import visualStorytellingImg from '../assets/analytics-comparison-information-networking-concept.jpg';
+import dataPipelinesImg from '../assets/45210.jpg';
+
 // --- Main Audience Section ---
 const TargetAudienceSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,22 +50,23 @@ const TargetAudienceSection = () => {
     },
   ];
 
+  // Map the imported image variables here
   const images = [
     {
       label: "Market Analysis",
-      src: "../src/assets/32440.jpg",
+      src: marketAnalysisImg, // Use the imported variable name, NOT a string
       colSpan: "md:col-span-2",
       rowSpan: "row-span-2",
     },
     {
       label: "Visual Storytelling",
-      src: "../src/assets/analytics-comparison-information-networking-concept.jpg",
+      src: visualStorytellingImg,
       colSpan: "",
       rowSpan: "row-span-1",
     },
     {
       label: "Data Pipelines",
-      src: "../src/assets/45210.jpg",
+      src: dataPipelinesImg,
       colSpan: "",
       rowSpan: "row-span-1",
     },

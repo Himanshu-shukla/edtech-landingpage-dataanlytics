@@ -6,39 +6,39 @@ const FAQSection = () => {
   const faqData = [
     {
       id: 1,
-      question: "I'm a beginner. Can I really learn Agentic AI?",
+      question: "I'm a beginner from a non-tech background. Is this for me?",
       icon: <Target className="w-5 h-5" />,
-      answer: "Absolutely. Our Agentic AI certification is designed for beginners and professionals alike. We cover everything from the basics of AI workflows to advanced autonomous agent deployment. No prior coding experience is required as we use powerful no-code/low-code tools."
+      answer: "Absolutely. Data Analytics is one of the most accessible tech careers. We start from the very basics using Excel, then gradually introduce SQL and Python. No prior coding experience or Computer Science degree is required to succeed in this program."
     },
     {
       id: 2,
-      question: "How is Agentic AI different from Data Analytics?",
+      question: "Do I need strong math or coding skills?",
       icon: <Zap className="w-5 h-5" />,
-      answer: "Data Analytics focuses on analyzing historical data to generate insights using tools like Excel and Power BI. Agentic AI focuses on creating intelligent systems that act, decide, and automate tasks independently. One is about 'insight', the other is about 'action'."
+      answer: "You need logical thinking, not advanced calculus. We teach Python specifically for data analysis, which is much easier than software development. Tools like Power BI and SQL are highly intuitive and don't require complex programming knowledge."
     },
     {
       id: 3,
-      question: "What tools will I learn in the Agentic AI program?",
+      question: "What tools will I learn in the Data Analytics program?",
       icon: <BookOpen className="w-5 h-5" />,
-      answer: "You will master a suite of cutting-edge tools including Python & AI APIs, Prompt Engineering, Autonomous Agent Frameworks (like n8n or LangChain), and Workflow Automation tools. You'll build real-world AI implementations during the course."
+      answer: "You will master the full industry stack: Advanced Excel for foundational analysis, SQL for database management, Python (Pandas/NumPy) for data processing, and Power BI/Tableau for creating business intelligence dashboards."
     },
     {
       id: 4,
       question: "What job roles can I apply for after this course?",
       icon: <ShieldCheck className="w-5 h-5" />,
-      answer: "Graduates can apply for high-demand roles such as AI Analyst, AI Automation Specialist, Junior AI Engineer, and AI Solutions Associate. The industry demand for these roles is growing rapidly."
+      answer: "Graduates are prepared for high-demand roles such as Data Analyst, Business Analyst, Business Intelligence (BI) Developer, Marketing Analyst, and Junior Data Scientist. These roles are needed in almost every industry today."
     },
     {
       id: 5,
       question: "Do you offer placement support?",
       icon: <Sparkles className="w-5 h-5" />,
-      answer: "Yes! We provide a 100% Placement Support for eligible learners. This includes job-ready training, resume & LinkedIn optimization, mock interviews, and continuous job opportunities until you secure a position."
+      answer: "Yes! We provide 100% Placement Support for eligible learners. This includes resume building, LinkedIn profile optimization, technical mock interviews, and direct referrals to our hiring partners until you secure a job."
     },
     {
       id: 6,
       question: "Is there a 'Pay After Placement' option?",
       icon: <Currency className="w-5 h-5" />,
-      answer: "Yes. Eligible candidates can opt for our Pay After Placement model, allowing you to pay the course fees only after you have successfully secured employment, as per the agreement terms."
+      answer: "Yes. Eligible candidates can opt for our Pay After Placement model, allowing you to focus entirely on learning and pay the course fees only after you have successfully secured employment above a minimum salary threshold."
     }
   ];
 
@@ -71,7 +71,7 @@ const FAQSection = () => {
             Common Questions
           </h2>
           <p className="text-neutral-500 text-lg font-medium">
-            Everything you need to know about joining EdTech Informative.
+            Everything you need to know about joining our Data Analytics cohort.
           </p>
         </motion.div>
 

@@ -110,7 +110,7 @@ const TestimonialSection = () => {
           <h2 className="text-4xl md:text-6xl font-black text-neutral-900 leading-[1.1] tracking-tight">
             What UK Professionals Say About Our{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">
-              2-Day Live Agentic AI Bootcamp
+              Live Data Analytics Bootcamp
             </span>
           </h2>
         </motion.div>

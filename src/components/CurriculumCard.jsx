@@ -93,7 +93,7 @@ const CurriculumSection = () => {
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-bold uppercase tracking-widest mb-6">
             <BarChart3 className="w-4 h-4" />
-            <span>2-Day Live Implementation Agenda</span>
+            <span>Live Implementation Agenda</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-neutral-900 mb-6 leading-tight tracking-tight">
             From Raw Data to <br /> 

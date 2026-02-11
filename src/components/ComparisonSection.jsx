@@ -103,7 +103,7 @@ const ComparisonSection = () => {
             </div>
             <div className="flex items-center justify-center gap-2 text-emerald-700 font-black text-[10px] md:text-xs uppercase tracking-[0.15em] p-2.5 bg-emerald-50/50 rounded-xl border border-emerald-100">
               <Sparkles className="w-4 h-4" />
-              Industrial Analytics Bootcamp
+              Industrial Analytics
             </div>
           </div>
 

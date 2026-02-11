@@ -133,7 +133,7 @@ const FoundryHero = () => {
           className="mb-8 inline-block"
         >
           <div className="px-6 py-2 rounded-lg bg-red-50 border border-red-100 text-red-600 font-bold text-sm md:text-base tracking-wide backdrop-blur-sm">
-            Attention: Aspiring Analysts, Product Managers, Founders & Data Enthusiasts
+            Attention: Tech, Non-Tech, Career Switchers & Freshers 
           </div>
         </motion.div>
 

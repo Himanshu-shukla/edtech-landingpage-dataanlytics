@@ -66,7 +66,7 @@ const BootcampAgenda = () => {
                                  Action Plan
                             </h3>
                             <p className="text-purple-700 font-bold uppercase tracking-[0.2em] text-xs md:text-sm">
-                                (LIVE IMPLEMENTATION BOOTCAMP)
+                                (LIVE IMPLEMENTATION)
                             </p>
                         </div>
 

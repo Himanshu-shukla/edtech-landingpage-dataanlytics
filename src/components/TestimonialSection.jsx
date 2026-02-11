@@ -16,7 +16,7 @@ const TestimonialSection = () => {
       id: 1,
       name: "Oliver Bennett",
       role: "Automation Consultant",
-      type: "Bootcamp Graduate",
+      type: "Graduate",
       rating: 4.5,
       image: oliver,
       text: "The client case studies were extremely practical. I secured a £4,500 automation project within three weeks. Some parts were intense, but the value delivered was outstanding."
@@ -43,10 +43,10 @@ const TestimonialSection = () => {
       id: 4,
       name: "Aisha Khan",
       role: "Software Engineer",
-      type: "Bootcamp Graduate",
+      type: "Graduate",
       rating: 5,
       image: aisha,
-      text: "From basic workflows to pitching a £9,000 AI agent solution — this bootcamp completely changed how I approach consulting."
+      text: "From basic workflows to pitching Data Analytics — this course completely changed how I approach consulting."
     },
     {
       id: 5,
@@ -110,7 +110,7 @@ const TestimonialSection = () => {
           <h2 className="text-4xl md:text-6xl font-black text-neutral-900 leading-[1.1] tracking-tight">
             What UK Professionals Say About Our{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">
-              Live Data Analytics Bootcamp
+              Live Data Analytics
             </span>
           </h2>
         </motion.div>

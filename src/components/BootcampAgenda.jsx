@@ -63,7 +63,7 @@ const BootcampAgenda = () => {
 
                         <div className="text-center mb-10 relative z-10">
                             <h3 className="text-3xl md:text-4xl font-black text-neutral-900 mb-3 tracking-tight">
-                                16-Hour Action Plan
+                                 Action Plan
                             </h3>
                             <p className="text-purple-700 font-bold uppercase tracking-[0.2em] text-xs md:text-sm">
                                 (LIVE IMPLEMENTATION BOOTCAMP)

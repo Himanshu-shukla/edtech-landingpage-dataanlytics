@@ -108,7 +108,7 @@ const ProgramsSection = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-neutral-900 mb-1">{mod.title}</h4>
-                      <p className="text-neutral-500 text-xs leading-relaxed font-medium">{mod.desc}</p>
+                      <p className="text-neutral-700 text-xs leading-relaxed font-medium">{mod.desc}</p>
                     </div>
                   </motion.div>
                 ))}

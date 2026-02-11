@@ -11,7 +11,11 @@ const ComparisonSection = () => {
 
   const comparisonData = [
     {
-      bad: "Surface-Level Excel: You spend hours learning basic pivot tables and VLOOKUPs.",
+      bad: (
+        <>
+          <span className="text-neutral-900 font-bold">Surface-Level Excel:</span> You spend hours learning basic pivot tables and VLOOKUPs.
+        </>
+      ),
       good: (
         <>
           <span className="text-neutral-900 font-bold">Industrial Data Stack:</span> Master SQL, Python, and PowerBI for big-data processing.
@@ -19,7 +23,11 @@ const ComparisonSection = () => {
       ),
     },
     {
-      bad: "Passive Theory: Watching an instructor explain 'Mean, Median, Mode' on slides.",
+      bad: (
+        <>
+          <span className="text-neutral-900 font-bold">Passive Theory:</span> Watching an instructor explain 'Mean, Median, Mode' on slides.
+        </>
+      ),
       good: (
         <>
           <span className="text-neutral-900 font-bold">Project-Led Execution:</span> Build 3+ real-world dashboards (E-comm, Finance, SaaS) live.
@@ -27,7 +35,11 @@ const ComparisonSection = () => {
       ),
     },
     {
-      bad: "The Teaser Trap: A 2-hour free session that's actually a 90% sales pitch.",
+      bad: (
+        <>
+          <span className="text-neutral-900 font-bold">The Teaser Trap:</span> A 2-hour free session that's actually a 90% sales pitch.
+        </>
+      ),
       good: (
         <>
           <span className="text-neutral-900 font-bold">Zero-Fluff Training:</span> 16 hours of pure technical implementation from minute one.
@@ -35,7 +47,11 @@ const ComparisonSection = () => {
       ),
     },
     {
-      bad: "Old School Reporting: Learning to say 'what happened' in the past.",
+      bad: (
+        <>
+          <span className="text-neutral-900 font-bold">Old School Reporting:</span> Learning to say 'what happened' in the past.
+        </>
+      ),
       good: (
         <>
           <span className="text-neutral-900 font-bold">Predictive Analytics:</span> Learn to build forecasting models that predict future trends.
@@ -43,7 +59,11 @@ const ComparisonSection = () => {
       ),
     },
     {
-      bad: "Stagnant Portfolio: No guidance on how to actually showcase your skills to recruiters.",
+      bad: (
+        <>
+          <span className="text-neutral-900 font-bold">Stagnant Portfolio:</span> No guidance on how to actually showcase your skills to recruiters.
+        </>
+      ),
       good: (
         <>
           <span className="text-neutral-900 font-bold">Consulting Blueprint:</span> Portfolio templates & LinkedIn frameworks to land ₹15LPA+ roles.
@@ -99,7 +119,7 @@ const ComparisonSection = () => {
               >
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50/50 border border-neutral-100">
                   <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-neutral-500 text-xs md:text-sm font-medium">{row.bad}</p>
+                  <p className="text-neutral-800 text-xs md:text-sm font-medium">{row.bad}</p>
                 </div>
 
                 <div className="relative flex items-start gap-3 p-4 rounded-xl bg-emerald-50/30 border border-emerald-100 shadow-sm">

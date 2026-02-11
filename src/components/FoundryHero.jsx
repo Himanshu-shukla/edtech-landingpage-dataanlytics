@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, Clock, Calendar, BarChart3, Database, TrendingUp } from 'lucide-react';
+import RegistrationModal from './RegistrationModal'; // Ensure this path is correct
 
 const FoundryHero = () => {
-  // Added state to ensure the button click works without errors
+  // State to control the modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -122,7 +123,6 @@ const FoundryHero = () => {
       />
 
       {/* Content */}
-      {/* Added px-4 (mobile) and md:px-8 (desktop) for spacing */}
       <div className="relative z-10 max-w-5xl mx-auto text-center pt-16 px-4 md:px-8">
 
         {/* Attention Pill */}
@@ -169,8 +169,9 @@ const FoundryHero = () => {
           transition={{ delay: 0.4 }}
           className="text-neutral-600 text-lg md:text-xl font-medium max-w-3xl mx-auto leading-relaxed mb-12"
         >
-          Master the industry's most in-demand tech stack including Python, SQL, and Machine Learning. Get trained by experts and become job-ready.
+          Master the industry's most in-demand tech stack including Python, SQL, and Machine Learning. Get trained by experts and become job-ready in just 6 months.
         </motion.p>
+        
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -231,6 +232,12 @@ const FoundryHero = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* --- REGISTRATION MODAL INTEGRATION --- */}
+      <RegistrationModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
 
       <style jsx>{`
         @keyframes gradient {

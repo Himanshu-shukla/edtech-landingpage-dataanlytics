@@ -114,7 +114,7 @@ const TargetAudienceSection = () => {
                   </div>
                   <div>
                     <span className="font-bold text-lg text-neutral-900 block mb-1">{item.role}</span>
-                    <span className="text-neutral-600 text-base leading-relaxed">{item.description}</span>
+                    <span className="text-neutral-700 text-base leading-relaxed">{item.description}</span>
                   </div>
                 </motion.div>
               ))}

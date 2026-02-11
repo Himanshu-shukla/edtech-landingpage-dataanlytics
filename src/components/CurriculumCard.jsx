@@ -5,10 +5,8 @@ import { CheckCircle2, BarChart3, Database, Search, LineChart } from 'lucide-rea
 const CurriculumSection = () => {
   const curriculumData = [
     {
-      dayLabel: "DAY 01",
       icon: <Database className="w-4 h-4" />,
       title: "Data Foundations & Advanced SQL Architectures",
-      time: "10 AM - 6 PM IST",
       imageSrc: "https://images.unsplash.com/photo-1551288049-bbda48658a7d?q=80&w=1200&auto=format&fit=crop",
       items: [
         {
@@ -34,10 +32,8 @@ const CurriculumSection = () => {
       ]
     },
     {
-      dayLabel: "DAY 02",
       icon: <LineChart className="w-4 h-4" />,
       title: "Predictive Modeling & Executive Dashboards",
-      time: "10 AM - 6 PM IST",
       imageSrc: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
       items: [
         {

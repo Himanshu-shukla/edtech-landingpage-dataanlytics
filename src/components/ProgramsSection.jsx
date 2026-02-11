@@ -24,7 +24,6 @@ const ProgramsSection = () => {
 
   const curriculum = [
     {
-      day: "Day 01",
       theme: "Data Foundations & SQL Mastery",
       subtext: "Focusing on data extraction, hygiene, and relational structures.",
       modules: [
@@ -51,7 +50,6 @@ const ProgramsSection = () => {
       ],
     },
     {
-      day: "Day 02",
       theme: "Visual Storytelling & Forecasting",
       subtext: "Transitioning from raw numbers to board-room ready dashboards.",
       modules: [

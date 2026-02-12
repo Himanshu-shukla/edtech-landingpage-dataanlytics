@@ -475,7 +475,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                             </div>
                           ) : (
                             <>
-                              <span className="text-lg">Get My Free Access</span>
+                              <span className="text-lg">Get In Touch</span>
                               <Check className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </>
                           )}

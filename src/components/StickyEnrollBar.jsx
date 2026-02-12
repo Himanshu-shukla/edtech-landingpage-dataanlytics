@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Sparkles, Users, Clock, Star, Flame } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Import the modal component we created above
-// Note: Ensure the path is correct based on where you save the file
+// Import the modal component
 import RegistrationModal from './RegistrationModal'; 
 
 const socialProofData = [
-  { text: "Rahul from Bangalore just registered", icon: <Clock className="w-3 h-3" /> },
+  { text: "Oliver from London just registered", icon: <Clock className="w-3 h-3" /> },
   { text: "10,000+ professionals trained", icon: <Users className="w-3 h-3" /> },
-  { text: "Riya S. purchased 2 minutes ago", icon: <Clock className="w-3 h-3" /> },
-  { text: "Rated 4.8/5 by 2000+ students", icon: <Star className="w-3 h-3" /> },
+  { text: "Mohammad purchased 2 minutes ago", icon: <Clock className="w-3 h-3" /> },
+  { text: "Rated 4.5/5 by 2000+ professionals", icon: <Star className="w-3 h-3" /> },
   { text: "Only 7 seats left in this batch!", icon: <Flame className="w-3 h-3" /> }
 ];
 
-const StickyEnrollBar = () => {
+const StickyEnrollBar = ({ onVisibilityChange }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ minutes: 13, seconds: 2 });
   const [proofIndex, setProofIndex] = useState(0);
@@ -22,8 +21,10 @@ const StickyEnrollBar = () => {
   // --- STATE FOR MODAL ---
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // 1. Detect Scroll
   useEffect(() => {
     const handleScroll = () => {
+      // Show when scrolled past 500px
       if (window.scrollY > 500) {
         setIsVisible(true);
       } else {
@@ -34,6 +35,14 @@ const StickyEnrollBar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 2. Notify Parent (App.jsx) when visibility changes
+  useEffect(() => {
+    if (onVisibilityChange) {
+      onVisibilityChange(isVisible);
+    }
+  }, [isVisible, onVisibilityChange]);
+
+  // 3. Countdown Timer Logic
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -45,6 +54,7 @@ const StickyEnrollBar = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // 4. Social Proof Rotator Logic
   useEffect(() => {
     const proofTimer = setInterval(() => {
       setProofIndex((prev) => (prev + 1) % socialProofData.length);
@@ -54,7 +64,6 @@ const StickyEnrollBar = () => {
 
   const formatTime = (val) => val.toString().padStart(2, '0');
 
-  // Handler for opening the modal
   const handleEnrollClick = () => {
     setIsModalOpen(true);
   };
@@ -122,7 +131,7 @@ const StickyEnrollBar = () => {
             <motion.button
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleEnrollClick} // <--- UPDATED CLICK HANDLER
+              onClick={handleEnrollClick}
               className="relative group flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-black px-8 py-3 rounded-full font-bold text-lg shadow-xl transition-all"
             >
               <Sparkles className="w-5 h-5 animate-spin-slow" />

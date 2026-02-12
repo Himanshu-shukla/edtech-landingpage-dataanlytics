@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react' // Import useState
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -23,15 +23,15 @@ import CareerStats from './components/CareerStats.jsx'
 import WhatsAppWidget from './components/WhatsAppWidget.jsx'
 import BootcampAgenda from './components/BootcampAgenda.jsx'
 import ExclusiveBonusesSection from './components/ExclusiveBonusesSection.jsx'
-// 1. Import the new component
 import StickyEnrollBar from './components/StickyEnrollBar.jsx'
 
 function App() {
+  // 1. Create state to track if the sticky bar is visible
+  const [isStickyVisible, setIsStickyVisible] = useState(false);
+
   return (
     <div className="bg-neutral-950 min-h-screen text-white selection:bg-emerald-500/30 pb-24 md:pb-0"> 
-      {/* Added pb-24 above to prevent the sticky bar from covering the footer on mobile */}
       
-      {/* <Navbar /> */}
       <FoundryHero />
       <BootcampAgenda />
       <AlumniSection />
@@ -50,10 +50,11 @@ function App() {
         <FAQSection />
       </div>
       
-      <WhatsAppWidget />
+      {/* 2. Pass the state to WhatsAppWidget */}
+      <WhatsAppWidget isStickyVisible={isStickyVisible} />
       
-      {/* 2. Add the StickyEnrollBar here */}
-      <StickyEnrollBar />
+      {/* 3. Pass the setter function to StickyEnrollBar */}
+      <StickyEnrollBar onVisibilityChange={setIsStickyVisible} />
 
       <footer className="py-8 text-center text-neutral-600 text-sm border-t border-neutral-900 mt-10">
         <p>© 2026 EdTech Informative. All rights reserved.</p>

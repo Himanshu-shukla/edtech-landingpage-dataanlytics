@@ -262,7 +262,10 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
                       {/* Name Input */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Full Name</label>
+                        <div class="flex items-center gap-2">
+                          <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Full Name</label>
+
+                        </div>
                         <div className="relative group">
                           <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
                           <input
@@ -282,7 +285,10 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
                       {/* Email Input */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Work Email</label>
+                        <div class="flex items-center gap-2">
+                          <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Work Email</label>
+
+                        </div>
                         <div className="relative group">
                           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
                           <input
@@ -303,9 +309,12 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
                       {/* Phone Input with Dropdown */}
                       <div className="space-y-1.5 country-dropdown-main">
-                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Phone Number</label>
+                        <div class="flex items-center gap-2">
+                          <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Phone Number</label>
+
+                        </div>
                         <div className="flex gap-3">
-                          
+
                           {/* Main Country Dropdown */}
                           <div className="relative">
                             <button
@@ -379,7 +388,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                             <Info className="w-4 h-4 text-emerald-500 cursor-help" />
                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-slate-800 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 shadow-xl z-50 pointer-events-none">
                               <p className="font-medium text-center leading-relaxed">
-                                We use this to send your <span className="text-emerald-400 font-bold">Program Brochure, Curriculum, Roadmap, and Bonuses.</span>
+                                We use this to send you our <span className="text-emerald-400 font-bold">Program Brochure, Curriculum, Roadmaps, and Bonuses.</span>
                               </p>
                               <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-slate-800"></div>
                             </div>
@@ -387,7 +396,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                         </div>
 
                         <div className="flex gap-3">
-                          
+
                           {/* WhatsApp Country Dropdown */}
                           <div className="relative">
                             <button

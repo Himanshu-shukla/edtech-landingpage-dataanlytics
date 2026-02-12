@@ -23,38 +23,37 @@ import CareerStats from './components/CareerStats.jsx'
 import WhatsAppWidget from './components/WhatsAppWidget.jsx'
 import BootcampAgenda from './components/BootcampAgenda.jsx'
 import ExclusiveBonusesSection from './components/ExclusiveBonusesSection.jsx'
+// 1. Import the new component
+import StickyEnrollBar from './components/StickyEnrollBar.jsx'
 
 function App() {
   return (
-    <div className="bg-neutral-950 min-h-screen text-white selection:bg-emerald-500/30">
+    <div className="bg-neutral-950 min-h-screen text-white selection:bg-emerald-500/30 pb-24 md:pb-0"> 
+      {/* Added pb-24 above to prevent the sticky bar from covering the footer on mobile */}
+      
       {/* <Navbar /> */}
       <FoundryHero />
-      < BootcampAgenda />
+      <BootcampAgenda />
       <AlumniSection />
       <TestimonialSection />
       <ExclusiveBonusesSection />
 
-
-      {/* Removed CareerStats to reduce clutter, or keep with tight padding */}
-      {/* <CareerStats /> */}
-
-      <div className="flex flex-col gap-0"> {/* gap-0 ensures no extra space between components */}
+      <div className="flex flex-col gap-0"> 
         <ProgramsSection />
         <IndustryGrowthSection />
         <ComparisonSection />
         <TargetAudienceSection />
 
-
         <WorkshopLanding />
-        {/* <CareerWarningSection />
-        <VideoShowcase />
-        <WhyDataAnalytics />
-        <CurriculumSection /> */}
         <BonusSection />
         <IrreplaceableSkillsSection />
         <FAQSection />
       </div>
+      
       <WhatsAppWidget />
+      
+      {/* 2. Add the StickyEnrollBar here */}
+      <StickyEnrollBar />
 
       <footer className="py-8 text-center text-neutral-600 text-sm border-t border-neutral-900 mt-10">
         <p>© 2026 EdTech Informative. All rights reserved.</p>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  X, Check, ChevronDown, BarChart3, Globe,
-  User, Mail, Phone, ShieldCheck, Lock, Sparkles
+  X, Check, ChevronDown, BarChart3,
+  User, Mail, Phone, ShieldCheck, Lock, Sparkles, AlertCircle
 } from 'lucide-react';
 
-// Country Data (Same as before)
+// Country Data
 const countries = [
   { code: '+44', country: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
   { code: '+91', country: 'IN', flag: '🇮🇳', name: 'India' },
@@ -15,15 +15,15 @@ const countries = [
   { code: '+61', country: 'AU', flag: '🇦🇺', name: 'Australia' },
   { code: '+49', country: 'DE', flag: '🇩🇪', name: 'Germany' },
   { code: '+33', country: 'FR', flag: '🇫🇷', name: 'France' },
-  // ... add other countries as needed
 ];
 
 export default function RegistrationModal({ isOpen, onClose }) {
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [selectedCountry, setSelectedCountry] = useState(countries[1]); // Default to India (+91)
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [apiError, setApiError] = useState(null); // To show general backend errors
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -38,8 +38,9 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const newErrors = {};
 
     if (!formData.name.trim()) newErrors.name = 'Full name is required';
@@ -50,8 +51,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
     }
     if (!formData.phone.trim()) {
       newErrors.phone = 'Phone number is required';
-    } else if (formData.phone.length < 5) {
-      newErrors.phone = 'Invalid phone number';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -59,12 +58,42 @@ export default function RegistrationModal({ isOpen, onClose }) {
       return;
     }
 
-    setIsSubmitted(true);
-    setTimeout(() => {
+    try {
+      setIsSubmitted(true);
+
+      const response = await fetch(
+        'http://localhost:8000/api/contact/strategy-call',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: `${selectedCountry.code}${formData.phone}`,
+            source: 'data_analytics_landing_page',
+            position: 'Data Analytics Mastery'
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ name: '', email: '', phone: '' });
+        onClose();
+      }, 1500);
+
+    } catch (error) {
+      console.error('Submission error:', error);
       setIsSubmitted(false);
-      setFormData({ name: '', email: '', phone: '' });
-      onClose();
-    }, 2000);
+    }
   };
 
   return (
@@ -127,6 +156,14 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
             {/* Scrollable Form Body */}
             <div className="px-8 py-6 overflow-y-auto">
+              {/* General API Error Message */}
+              {apiError && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 text-sm rounded-lg flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4" />
+                  {apiError}
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-5">
 
                 {/* Name Input */}
@@ -137,7 +174,8 @@ export default function RegistrationModal({ isOpen, onClose }) {
                     <input
                       type="text"
                       placeholder="John Doe"
-                      className={`w-full bg-slate-50 border ${errors.name ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 py-3.5 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4`}
+                      disabled={isSubmitted}
+                      className={`w-full bg-slate-50 border ${errors.name ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 py-3.5 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
                       value={formData.name}
                       onChange={(e) => {
                         setFormData({ ...formData, name: e.target.value });
@@ -156,11 +194,13 @@ export default function RegistrationModal({ isOpen, onClose }) {
                     <input
                       type="email"
                       placeholder="john@company.com"
-                      className={`w-full bg-slate-50 border ${errors.email ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 py-3.5 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4`}
+                      disabled={isSubmitted}
+                      className={`w-full bg-slate-50 border ${errors.email ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 py-3.5 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
                       value={formData.email}
                       onChange={(e) => {
                         setFormData({ ...formData, email: e.target.value });
                         if (errors.email) setErrors({ ...errors, email: null });
+                        if (apiError) setApiError(null);
                       }}
                     />
                   </div>
@@ -176,8 +216,9 @@ export default function RegistrationModal({ isOpen, onClose }) {
                     <div className="relative">
                       <button
                         type="button"
+                        disabled={isSubmitted}
                         onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                        className="flex items-center gap-2 h-[52px] px-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-all min-w-[110px] text-slate-800 font-medium focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 outline-none"
+                        className="flex items-center gap-2 h-[52px] px-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-all min-w-[110px] text-slate-800 font-medium focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 outline-none disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span className="text-xl leading-none">{selectedCountry.flag}</span>
                         <span className="text-sm font-semibold">{selectedCountry.code}</span>
@@ -186,7 +227,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
                       {/* Dropdown Menu */}
                       <AnimatePresence>
-                        {showCountryDropdown && (
+                        {showCountryDropdown && !isSubmitted && (
                           <motion.div
                             initial={{ opacity: 0, y: 5, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -218,12 +259,14 @@ export default function RegistrationModal({ isOpen, onClose }) {
                       <input
                         type="tel"
                         placeholder="98765 43210"
-                        className={`w-full h-[52px] bg-slate-50 border ${errors.phone ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4`}
+                        disabled={isSubmitted}
+                        className={`w-full h-[52px] bg-slate-50 border ${errors.phone ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
                         value={formData.phone}
                         onChange={(e) => {
                           const val = e.target.value.replace(/\D/g, '');
                           setFormData({ ...formData, phone: val });
                           if (errors.phone) setErrors({ ...errors, phone: null });
+                          if (apiError) setApiError(null);
                         }}
                       />
                     </div>
@@ -238,7 +281,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                     disabled={isSubmitted}
                     className="relative w-full overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-200/50 transition-all flex items-center justify-center gap-2 group active:scale-[0.99] disabled:opacity-80 disabled:cursor-not-allowed"
                   >
-                    {isSubmitted ? (
+                    {isSubmitted && !errors.length ? (
                       <div className="flex items-center gap-2">
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         <span>Reserving Your Seat...</span>

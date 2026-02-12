@@ -98,7 +98,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
       setApiError(null);
 
       const response = await fetch(
-        `${process.env.BACKEND_URL}/api/contact/strategy-call`,
+        `https://api.edtechinformative.uk/api/contact/strategy-call`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

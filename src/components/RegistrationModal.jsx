@@ -262,7 +262,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
                       {/* Name Input */}
                       <div className="space-y-1.5">
-                        <div class="flex items-center gap-2">
+                        <div className="flex items-center gap-2">
                           <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Full Name</label>
 
                         </div>
@@ -285,7 +285,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
                       {/* Email Input */}
                       <div className="space-y-1.5">
-                        <div class="flex items-center gap-2">
+                        <div className="flex items-center gap-2">
                           <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Work Email</label>
 
                         </div>
@@ -309,7 +309,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
                       {/* Phone Input with Dropdown */}
                       <div className="space-y-1.5 country-dropdown-main">
-                        <div class="flex items-center gap-2">
+                        <div className="flex items-center gap-2">
                           <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Phone Number</label>
 
                         </div>

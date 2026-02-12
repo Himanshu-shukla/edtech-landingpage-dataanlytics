@@ -130,7 +130,7 @@ const FoundryHero = () => {
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.1, type: "spring", stiffness: 100 }}
-          className="fixed top-0 left-0 right-0 z-50 flex justify-center"
+          className="absolute top-0 left-0 right-0 flex justify-center"
         >
           <motion.div
             // 1. Continuous "Breathing" Animation loop

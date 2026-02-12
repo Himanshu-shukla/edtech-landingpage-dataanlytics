@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Check, ChevronDown, BarChart3,
-  User, Mail, Phone, ShieldCheck, Lock, Sparkles, AlertCircle
+  User, Mail, Phone, ShieldCheck, Lock, Sparkles, AlertCircle, CheckCircle2
 } from 'lucide-react';
 
 // Country Data
@@ -22,8 +22,24 @@ export default function RegistrationModal({ isOpen, onClose }) {
   const [selectedCountry, setSelectedCountry] = useState(countries[1]); // Default to India (+91)
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [errors, setErrors] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [apiError, setApiError] = useState(null); // To show general backend errors
+  
+  // Loading state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Success State for Thank You View
+  const [isSuccess, setIsSuccess] = useState(false);
+  
+  const [apiError, setApiError] = useState(null);
+
+  // Reset state when modal opens/closes
+  useEffect(() => {
+    if (isOpen) {
+      setIsSuccess(false);
+      setIsSubmitting(false);
+      setFormData({ name: '', email: '', phone: '' });
+      setErrors({});
+      setApiError(null);
+    }
+  }, [isOpen]);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -40,7 +56,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const newErrors = {};
 
     if (!formData.name.trim()) newErrors.name = 'Full name is required';
@@ -59,15 +74,14 @@ export default function RegistrationModal({ isOpen, onClose }) {
     }
 
     try {
-      setIsSubmitted(true);
+      setIsSubmitting(true);
+      setApiError(null);
 
       const response = await fetch(
         'http://localhost:8000/api/contact/strategy-call',
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
@@ -84,15 +98,14 @@ export default function RegistrationModal({ isOpen, onClose }) {
         throw new Error(data.error || 'Something went wrong');
       }
 
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({ name: '', email: '', phone: '' });
-        onClose();
-      }, 1500);
+      // API Success: Switch to Success View
+      setIsSubmitting(false);
+      setIsSuccess(true);
 
     } catch (error) {
       console.error('Submission error:', error);
-      setIsSubmitted(false);
+      setApiError(error.message || "Failed to submit. Please try again.");
+      setIsSubmitting(false);
     }
   };
 
@@ -100,7 +113,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 font-sans">
-
+          
           {/* Darkened Blur Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -118,7 +131,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
             transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
             className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden z-10 border border-slate-100 flex flex-col max-h-[90vh]"
           >
-
+            
             {/* Close Button */}
             <button
               onClick={onClose}
@@ -127,185 +140,226 @@ export default function RegistrationModal({ isOpen, onClose }) {
               <X className="w-5 h-5" />
             </button>
 
-            {/* Premium Header */}
-            <div className="px-8 pt-10 pb-6 bg-gradient-to-b from-slate-50 to-white border-b border-slate-100">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-white border border-slate-100 shadow-sm rounded-xl">
-                  <BarChart3 className="w-8 h-8 text-emerald-600" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
-                    Secure Your Spot
-                  </h2>
-                  <p className="text-slate-500 text-sm mt-1">
-                    Join the <span className="text-emerald-700 font-semibold">Data Analytics Mastery</span> program.
-                  </p>
-                </div>
-              </div>
-
-              {/* Value Props Pills */}
-              <div className="flex flex-wrap gap-2 mt-6">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-100">
-                  <Sparkles className="w-3.5 h-3.5" /> 100% Placement Support
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full border border-blue-100">
-                  <ShieldCheck className="w-3.5 h-3.5" /> Certified Course
-                </div>
-              </div>
-            </div>
-
-            {/* Scrollable Form Body */}
-            <div className="px-8 py-6 overflow-y-auto">
-              {/* General API Error Message */}
-              {apiError && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 text-sm rounded-lg flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4" />
-                  {apiError}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-5">
-
-                {/* Name Input */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Full Name</label>
-                  <div className="relative group">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
-                    <input
-                      type="text"
-                      placeholder="John Doe"
-                      disabled={isSubmitted}
-                      className={`w-full bg-slate-50 border ${errors.name ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 py-3.5 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
-                      value={formData.name}
-                      onChange={(e) => {
-                        setFormData({ ...formData, name: e.target.value });
-                        if (errors.name) setErrors({ ...errors, name: null });
-                      }}
-                    />
-                  </div>
-                  {errors.name && <p className="text-red-500 text-xs font-semibold ml-1">{errors.name}</p>}
-                </div>
-
-                {/* Email Input */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Work Email</label>
-                  <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
-                    <input
-                      type="email"
-                      placeholder="john@company.com"
-                      disabled={isSubmitted}
-                      className={`w-full bg-slate-50 border ${errors.email ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 py-3.5 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
-                      value={formData.email}
-                      onChange={(e) => {
-                        setFormData({ ...formData, email: e.target.value });
-                        if (errors.email) setErrors({ ...errors, email: null });
-                        if (apiError) setApiError(null);
-                      }}
-                    />
-                  </div>
-                  {errors.email && <p className="text-red-500 text-xs font-semibold ml-1">{errors.email}</p>}
-                </div>
-
-                {/* Phone Input with Country Code */}
-                <div className="space-y-1.5 country-dropdown-container">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Phone Number</label>
-                  <div className="flex gap-3">
-
-                    {/* Country Dropdown */}
-                    <div className="relative">
-                      <button
-                        type="button"
-                        disabled={isSubmitted}
-                        onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                        className="flex items-center gap-2 h-[52px] px-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-all min-w-[110px] text-slate-800 font-medium focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 outline-none disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        <span className="text-xl leading-none">{selectedCountry.flag}</span>
-                        <span className="text-sm font-semibold">{selectedCountry.code}</span>
-                        <ChevronDown className={`w-4 h-4 text-slate-400 ml-auto transition-transform duration-200 ${showCountryDropdown ? 'rotate-180' : ''}`} />
-                      </button>
-
-                      {/* Dropdown Menu */}
-                      <AnimatePresence>
-                        {showCountryDropdown && !isSubmitted && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 5, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                            transition={{ duration: 0.1 }}
-                            className="absolute top-full left-0 mt-2 w-72 bg-white border border-slate-200 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto custom-scrollbar"
-                          >
-                            <div className="p-1">
-                              {countries.map((c) => (
-                                <div
-                                  key={c.code}
-                                  className="flex items-center gap-3 px-3 py-2.5 hover:bg-emerald-50 rounded-lg cursor-pointer transition-colors"
-                                  onClick={() => { setSelectedCountry(c); setShowCountryDropdown(false); }}
-                                >
-                                  <span className="text-xl">{c.flag}</span>
-                                  <span className="text-sm font-medium text-slate-700">{c.name}</span>
-                                  <span className="text-xs font-bold text-slate-400 ml-auto bg-slate-100 px-1.5 py-0.5 rounded">{c.code}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                    {/* Phone Input */}
-                    <div className="relative group flex-1">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
-                      <input
-                        type="tel"
-                        placeholder="98765 43210"
-                        disabled={isSubmitted}
-                        className={`w-full h-[52px] bg-slate-50 border ${errors.phone ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
-                        value={formData.phone}
-                        onChange={(e) => {
-                          const val = e.target.value.replace(/\D/g, '');
-                          setFormData({ ...formData, phone: val });
-                          if (errors.phone) setErrors({ ...errors, phone: null });
-                          if (apiError) setApiError(null);
-                        }}
-                      />
-                    </div>
-                  </div>
-                  {errors.phone && <p className="text-red-500 text-xs font-semibold ml-1">{errors.phone}</p>}
-                </div>
-
-                {/* Footer Section */}
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitted}
-                    className="relative w-full overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-200/50 transition-all flex items-center justify-center gap-2 group active:scale-[0.99] disabled:opacity-80 disabled:cursor-not-allowed"
+            {/* Content Switcher: Form vs Success */}
+            <AnimatePresence mode="wait">
+              {isSuccess ? (
+                /* ---------------- SUCCESS VIEW ---------------- */
+                <motion.div 
+                  key="success"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex flex-col items-center justify-center text-center p-10 min-h-[400px]"
+                >
+                  <motion.div 
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", duration: 0.6, bounce: 0.5, delay: 0.1 }}
+                    className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-6"
                   >
-                    {isSubmitted && !errors.length ? (
-                      <div className="flex items-center gap-2">
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        <span>Reserving Your Seat...</span>
+                    <CheckCircle2 className="w-10 h-10 text-emerald-600" />
+                  </motion.div>
+                  
+                  <h2 className="text-3xl font-bold text-slate-900 mb-2">You're All Set!</h2>
+                  <p className="text-slate-500 max-w-xs mx-auto mb-8">
+                    Thanks for registering, <span className="font-semibold text-slate-800">{formData.name}</span>.
+                  </p>
+
+                  <button
+                    onClick={onClose}
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg active:scale-[0.98]"
+                  >
+                    Done
+                  </button>
+                </motion.div>
+
+              ) : (
+                /* ---------------- FORM VIEW ---------------- */
+                <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  
+                  {/* Premium Header */}
+                  <div className="px-8 pt-10 pb-6 bg-gradient-to-b from-slate-50 to-white border-b border-slate-100">
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 bg-white border border-slate-100 shadow-sm rounded-xl">
+                        <BarChart3 className="w-8 h-8 text-emerald-600" />
                       </div>
-                    ) : (
-                      <>
-                        <span className="text-lg">Get My Free Access</span>
-                        <Check className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </>
+                      <div>
+                        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
+                          Secure Your Spot
+                        </h2>
+                        <p className="text-slate-500 text-sm mt-1">
+                          Join the <span className="text-emerald-700 font-semibold">Data Analytics Mastery</span> program.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Value Props Pills */}
+                    <div className="flex flex-wrap gap-2 mt-6">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-100">
+                        <Sparkles className="w-3.5 h-3.5" /> 100% Placement Support
+                      </div>
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full border border-blue-100">
+                        <ShieldCheck className="w-3.5 h-3.5" /> Certified Course
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Scrollable Form Body */}
+                  <div className="px-8 py-6 overflow-y-auto">
+                    
+                    {apiError && (
+                      <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 text-sm rounded-lg flex items-center gap-2 animate-pulse">
+                        <AlertCircle className="w-4 h-4" />
+                        {apiError}
+                      </div>
                     )}
 
-                    {/* Shine Effect */}
-                    <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
-                  </button>
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      
+                      {/* Name Input */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Full Name</label>
+                        <div className="relative group">
+                          <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
+                          <input
+                            type="text"
+                            placeholder="John Doe"
+                            disabled={isSubmitting}
+                            className={`w-full bg-slate-50 border ${errors.name ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 py-3.5 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
+                            value={formData.name}
+                            onChange={(e) => {
+                              setFormData({ ...formData, name: e.target.value });
+                              if (errors.name) setErrors({ ...errors, name: null });
+                            }}
+                          />
+                        </div>
+                        {errors.name && <p className="text-red-500 text-xs font-semibold ml-1">{errors.name}</p>}
+                      </div>
 
-                  <div className="mt-4 flex items-center justify-center gap-1.5 text-slate-400">
-                    <Lock className="w-3 h-3" />
-                    <p className="text-[11px] font-medium">
-                      Your information is 100% secure and confidential.
-                    </p>
+                      {/* Email Input */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Work Email</label>
+                        <div className="relative group">
+                          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
+                          <input
+                            type="email"
+                            placeholder="john@company.com"
+                            disabled={isSubmitting}
+                            className={`w-full bg-slate-50 border ${errors.email ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 py-3.5 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
+                            value={formData.email}
+                            onChange={(e) => {
+                              setFormData({ ...formData, email: e.target.value });
+                              if (errors.email) setErrors({ ...errors, email: null });
+                              if (apiError) setApiError(null);
+                            }}
+                          />
+                        </div>
+                        {errors.email && <p className="text-red-500 text-xs font-semibold ml-1">{errors.email}</p>}
+                      </div>
+
+                      {/* Phone Input with Country Code */}
+                      <div className="space-y-1.5 country-dropdown-container">
+                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Phone Number</label>
+                        <div className="flex gap-3">
+                          
+                          {/* Country Dropdown */}
+                          <div className="relative">
+                            <button
+                              type="button"
+                              disabled={isSubmitting}
+                              onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                              className="flex items-center gap-2 h-[52px] px-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-all min-w-[110px] text-slate-800 font-medium focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 outline-none disabled:opacity-60 disabled:cursor-not-allowed"
+                            >
+                              <span className="text-xl leading-none">{selectedCountry.flag}</span>
+                              <span className="text-sm font-semibold">{selectedCountry.code}</span>
+                              <ChevronDown className={`w-4 h-4 text-slate-400 ml-auto transition-transform duration-200 ${showCountryDropdown ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            <AnimatePresence>
+                              {showCountryDropdown && !isSubmitting && (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 5, scale: 0.95 }}
+                                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                                  exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                                  transition={{ duration: 0.1 }}
+                                  className="absolute top-full left-0 mt-2 w-72 bg-white border border-slate-200 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto custom-scrollbar"
+                                >
+                                  <div className="p-1">
+                                    {countries.map((c) => (
+                                      <div
+                                        key={c.code}
+                                        className="flex items-center gap-3 px-3 py-2.5 hover:bg-emerald-50 rounded-lg cursor-pointer transition-colors"
+                                        onClick={() => { setSelectedCountry(c); setShowCountryDropdown(false); }}
+                                      >
+                                        <span className="text-xl">{c.flag}</span>
+                                        <span className="text-sm font-medium text-slate-700">{c.name}</span>
+                                        <span className="text-xs font-bold text-slate-400 ml-auto bg-slate-100 px-1.5 py-0.5 rounded">{c.code}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+
+                          {/* Phone Input */}
+                          <div className="relative group flex-1">
+                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
+                            <input
+                              type="tel"
+                              placeholder="98765 43210"
+                              disabled={isSubmitting}
+                              className={`w-full h-[52px] bg-slate-50 border ${errors.phone ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
+                              value={formData.phone}
+                              onChange={(e) => {
+                                const val = e.target.value.replace(/\D/g, '');
+                                setFormData({ ...formData, phone: val });
+                                if (errors.phone) setErrors({ ...errors, phone: null });
+                                if (apiError) setApiError(null);
+                              }}
+                            />
+                          </div>
+                        </div>
+                        {errors.phone && <p className="text-red-500 text-xs font-semibold ml-1">{errors.phone}</p>}
+                      </div>
+
+                      {/* Footer Section */}
+                      <div className="pt-2">
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="relative w-full overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-200/50 transition-all flex items-center justify-center gap-2 group active:scale-[0.99] disabled:opacity-80 disabled:cursor-not-allowed"
+                        >
+                          {isSubmitting ? (
+                            <div className="flex items-center gap-2">
+                              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              <span>Reserving Your Seat...</span>
+                            </div>
+                          ) : (
+                            <>
+                              <span className="text-lg">Get My Free Access</span>
+                              <Check className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </>
+                          )}
+                          
+                          {/* Shine Effect */}
+                          <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
+                        </button>
+                        
+                        <div className="mt-4 flex items-center justify-center gap-1.5 text-slate-400">
+                          <Lock className="w-3 h-3" />
+                          <p className="text-[11px] font-medium">
+                            Your information is 100% secure and confidential.
+                          </p>
+                        </div>
+                      </div>
+                    </form>
                   </div>
-                </div>
-              </form>
-            </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
           </motion.div>
         </div>
       )}

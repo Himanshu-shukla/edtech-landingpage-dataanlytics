@@ -123,18 +123,47 @@ const FoundryHero = () => {
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto text-center pt-16 px-4 md:px-8">
+      <div className="relative z-10 max-w-5xl mx-auto text-center pt-8 px-4 md:px-8">
 
         {/* Attention Pill */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1 }}
-          className="mb-8 inline-block"
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1, type: "spring", stiffness: 100 }}
+          className="fixed top-0 left-0 right-0 z-50 flex justify-center"
         >
-          <div className="px-6 py-2 rounded-lg bg-red-50 border border-red-100 text-red-600 font-bold text-sm md:text-base tracking-wide backdrop-blur-sm">
-            Attention: Tech, Non-Tech, Career Switchers & Freshers 
-          </div>
+          <motion.div
+            // 1. Continuous "Breathing" Animation loop
+            animate={{
+              boxShadow: [
+                "0px 0px 0px rgba(220, 38, 38, 0)",      // No glow
+                "0px 4px 20px rgba(220, 38, 38, 0.4)",   // Bright Red Glow
+                "0px 0px 0px rgba(220, 38, 38, 0)"       // No glow
+              ],
+              borderColor: ["#FEE2E2", "#FCA5A5", "#FEE2E2"],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+
+            // 2. Base Styling
+            // UPDATED: Changed py-3 -> py-4, text-sm -> text-base, md:text-base -> md:text-lg
+            className="px-8 py-4 bg-red-50 border-b border-x border-red-100 text-red-800 font-bold text-base md:text-lg tracking-wide backdrop-blur-md rounded-b-2xl flex items-center gap-3 cursor-pointer shadow-sm"
+          >
+
+            {/* Red Blinking Dot (Updated size h-4 w-4 to match larger text) */}
+            <span className="relative flex h-4 w-4 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-4 w-4 bg-red-600"></span>
+            </span>
+
+            <span className="drop-shadow-sm">
+              Attention: Tech, Non-Tech, Career Switchers & Freshers
+            </span>
+
+          </motion.div>
         </motion.div>
 
         {/* Main Headline */}
@@ -142,7 +171,7 @@ const FoundryHero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-5xl md:text-8xl font-black tracking-tighter leading-[1.1] mb-4 text-neutral-900"
+          className="text-5xl md:text-8xl font-black tracking-tighter leading-[1.1] mb-4 mt-20 text-neutral-900"
         >
           Launch Your Career in <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 animate-gradient">
@@ -171,7 +200,7 @@ const FoundryHero = () => {
         >
           Master the industry's most in-demand tech stack including Python, SQL, and Machine Learning. Get trained by experts and become job-ready in just 6 months.
         </motion.p>
-        
+
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -234,9 +263,9 @@ const FoundryHero = () => {
       </div>
 
       {/* --- REGISTRATION MODAL INTEGRATION --- */}
-      <RegistrationModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+      <RegistrationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
 
       <style jsx>{`

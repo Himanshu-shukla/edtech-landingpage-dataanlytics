@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; // Added useRef
 import { Sparkles, Users, Clock, Star, Flame } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-// Import the modal component
 import RegistrationModal from './RegistrationModal'; 
 
 const socialProofData = [
@@ -17,32 +15,40 @@ const StickyEnrollBar = ({ onVisibilityChange }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ minutes: 13, seconds: 2 });
   const [proofIndex, setProofIndex] = useState(0);
-
-  // --- STATE FOR MODAL ---
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Ref to track if an animation frame is already requested
+  const ticking = useRef(false);
 
-  // 1. Detect Scroll
   useEffect(() => {
     const handleScroll = () => {
-      // Show when scrolled past 500px
-      if (window.scrollY > 500) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const shouldBeVisible = window.scrollY > 500;
+          // Only update state if the value actually changes to prevent re-renders
+          setIsVisible((prev) => {
+            if (prev !== shouldBeVisible) {
+              return shouldBeVisible;
+            }
+            return prev;
+          });
+          ticking.current = false;
+        });
+        ticking.current = true;
       }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true }); // 'passive: true' improves scroll performance
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 2. Notify Parent (App.jsx) when visibility changes
   useEffect(() => {
     if (onVisibilityChange) {
       onVisibilityChange(isVisible);
     }
   }, [isVisible, onVisibilityChange]);
 
-  // 3. Countdown Timer Logic
+  // ... (Keep Timer and Proof Logic the same) ...
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -54,7 +60,6 @@ const StickyEnrollBar = ({ onVisibilityChange }) => {
     return () => clearInterval(timer);
   }, []);
 
-  // 4. Social Proof Rotator Logic
   useEffect(() => {
     const proofTimer = setInterval(() => {
       setProofIndex((prev) => (prev + 1) % socialProofData.length);
@@ -64,23 +69,21 @@ const StickyEnrollBar = ({ onVisibilityChange }) => {
 
   const formatTime = (val) => val.toString().padStart(2, '0');
 
-  const handleEnrollClick = () => {
-    setIsModalOpen(true);
-  };
-
   return (
     <>
       <motion.div
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: isVisible ? 0 : 100, opacity: isVisible ? 1 : 0 }}
-        transition={{ type: "spring", stiffness: 120 }}
-        className="fixed bottom-0 left-0 right-0 z-50"
+        transition={{ type: "spring", stiffness: 120, damping: 20 }} // Added damping for stability
+        // OPTIMIZATION: 'will-change-transform' tells browser to keep this in GPU memory
+        className="fixed bottom-0 left-0 right-0 z-50 will-change-transform translate-z-0"
       >
+        {/* ... (Keep your existing JSX content exactly the same) ... */}
+        
         {/* --- SOCIAL PROOF STRIP --- */}
         <div className="bg-indigo-900 text-indigo-100 text-xs py-2 relative overflow-hidden border-t border-indigo-800">
-          
-          {/* Shimmer Effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shimmer_3s_infinite]" />
+           {/* Shimmer Effect - Reduced duration to save GPU */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shimmer_4s_infinite]" />
 
           <div className="max-w-5xl mx-auto px-4 flex justify-center items-center relative z-10">
             <AnimatePresence mode="wait">
@@ -104,51 +107,32 @@ const StickyEnrollBar = ({ onVisibilityChange }) => {
         {/* --- MAIN CTA BAR --- */}
         <div className="bg-gradient-to-r from-indigo-50 to-white border-t border-indigo-100 shadow-2xl">
           <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-            
-            {/* LEFT SIDE */}
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="text-2xl md:text-3xl font-extrabold text-indigo-900">
-                  FREE
-                </span>
-                <span className="text-sm text-neutral-400 line-through">
-                  £2,999
-                </span>
-                <span className="bg-red-600 text-white text-xs px-2 py-1 rounded-full animate-pulse">
-                  🔥 Limited Offer
-                </span>
+                <span className="text-2xl md:text-3xl font-extrabold text-indigo-900">FREE</span>
+                <span className="text-sm text-neutral-400 line-through">£2,999</span>
+                <span className="bg-red-600 text-white text-xs px-2 py-1 rounded-full">🔥 Limited Offer</span>
               </div>
-
               <p className="text-sm font-semibold text-neutral-700">
-                Offer ends in{" "}
-                <span className="text-red-600 font-extrabold tabular-nums tracking-widest">
-                  {formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}
-                </span>
+                Offer ends in <span className="text-red-600 font-extrabold tabular-nums tracking-widest">{formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}</span>
               </p>
             </div>
 
-            {/* RIGHT SIDE CTA */}
             <motion.button
-              whileHover={{ scale: 1.08 }}
+              whileHover={{ scale: 1.05 }} // Reduced scale slightly for performance
               whileTap={{ scale: 0.95 }}
-              onClick={handleEnrollClick}
+              onClick={() => setIsModalOpen(true)}
               className="relative group flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-black px-8 py-3 rounded-full font-bold text-lg shadow-xl transition-all"
             >
               <Sparkles className="w-5 h-5 animate-spin-slow" />
               <span>Enroll Now</span>
-
-              {/* Glow Effect */}
               <span className="absolute inset-0 rounded-full bg-amber-400 opacity-0 group-hover:opacity-30 blur-xl transition-all"></span>
             </motion.button>
           </div>
         </div>
       </motion.div>
 
-      {/* --- REGISTRATION MODAL --- */}
-      <RegistrationModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-      />
+      <RegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 };

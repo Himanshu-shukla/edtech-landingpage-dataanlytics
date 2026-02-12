@@ -20,10 +20,10 @@ const countries = [
 export default function RegistrationModal({ isOpen, onClose }) {
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   // FIX 2: Default to UK (Index 0) instead of India
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]); 
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [errors, setErrors] = useState({});
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [apiError, setApiError] = useState(null);
@@ -140,7 +140,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 font-sans">
-          
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -156,7 +156,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
             transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
             className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden z-10 border border-slate-100 flex flex-col max-h-[90vh]"
           >
-            
+
             {/* Close Button: Increased z-index and kept absolute */}
             <button
               onClick={onClose}
@@ -168,14 +168,14 @@ export default function RegistrationModal({ isOpen, onClose }) {
             <AnimatePresence mode="wait">
               {isSuccess ? (
                 /* ---------------- SUCCESS VIEW ---------------- */
-                <motion.div 
+                <motion.div
                   key="success"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   className="flex flex-col items-center justify-center text-center p-10 min-h-[400px]"
                 >
-                  <motion.div 
+                  <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", duration: 0.6, bounce: 0.5, delay: 0.1 }}
@@ -183,7 +183,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                   >
                     <CheckCircle2 className="w-10 h-10 text-emerald-600" />
                   </motion.div>
-                  
+
                   <h2 className="text-3xl font-bold text-slate-900 mb-2">You're All Set!</h2>
                   <p className="text-slate-500 max-w-xs mx-auto mb-8">
                     Thanks for registering, <span className="font-semibold text-slate-800">{formData.name}</span>.
@@ -191,7 +191,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
                   <button
                     onClick={onClose}
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg active:scale-[0.98]"
+                    className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg active:scale-[0.98]"
                   >
                     Done
                   </button>
@@ -200,7 +200,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
               ) : (
                 /* ---------------- FORM VIEW ---------------- */
                 <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  
+
                   {/* Premium Header */}
                   {/* FIX 1: Added pr-12 to container to prevent text overlapping with close button */}
                   <div className="px-8 pt-10 pb-6 bg-gradient-to-b from-slate-50 to-white border-b border-slate-100 relative">
@@ -230,7 +230,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
 
                   {/* Scrollable Form Body */}
                   <div className="px-8 py-6 overflow-y-auto max-h-[60vh]">
-                    
+
                     {apiError && (
                       <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 text-sm rounded-lg flex items-center gap-2 animate-pulse">
                         <AlertCircle className="w-4 h-4" />
@@ -239,7 +239,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-5">
-                      
+
                       {/* Name Input */}
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Full Name</label>
@@ -286,7 +286,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                       <div className="space-y-1.5 country-dropdown-container">
                         <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Phone Number</label>
                         <div className="flex gap-3">
-                          
+
                           {/* Country Dropdown */}
                           <div className="relative">
                             <button
@@ -369,10 +369,10 @@ export default function RegistrationModal({ isOpen, onClose }) {
                               <Check className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </>
                           )}
-                          
+
                           <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
                         </button>
-                        
+
                         <div className="mt-4 flex items-center justify-center gap-1.5 text-slate-400">
                           <Lock className="w-3 h-3" />
                           <p className="text-[11px] font-medium">

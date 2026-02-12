@@ -33,12 +33,6 @@ const FAQSection = () => {
       question: "Do you offer placement support?",
       icon: <Sparkles className="w-5 h-5" />,
       answer: "Yes! We provide 100% Placement Support for eligible learners. This includes resume building, LinkedIn profile optimization, technical mock interviews, and direct referrals to our hiring partners until you secure a job."
-    },
-    {
-      id: 6,
-      question: "Is there a 'Pay After Placement' option?",
-      icon: <Currency className="w-5 h-5" />,
-      answer: "Yes. Eligible candidates can opt for our Pay After Placement model, allowing you to focus entirely on learning and pay the course fees only after you have successfully secured employment above a minimum salary threshold."
     }
   ];
 

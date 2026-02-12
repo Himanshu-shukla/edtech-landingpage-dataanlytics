@@ -7,7 +7,7 @@ const BonusSection = () => {
     {
       id: 1,
       label: "BONUS 1",
-      value: "₹15,000",
+      value: "£2,999",
       title: "The Ultimate SQL & Python Library",
       text: "Never write a complex query from scratch again. Get our collection of pre-built scripts for automated data cleaning, funnel analysis, and financial modeling.",
       icon: <Database className="w-16 h-16 md:w-20 md:h-20 text-emerald-600" strokeWidth={1.5} />,
@@ -17,7 +17,7 @@ const BonusSection = () => {
     {
       id: 2,
       label: "BONUS 2",
-      value: "₹10,000",
+      value: "£1,999",
       title: "Industrial Dashboard Templates",
       text: "Get the exact PowerBI and Tableau frameworks used by top-tier firms. Professional-grade visuals that you can plug your data into and present immediately.",
       icon: <BarChart3 className="w-16 h-16 md:w-20 md:h-20 text-cyan-600" strokeWidth={1.5} />,
@@ -27,7 +27,7 @@ const BonusSection = () => {
     {
       id: 3,
       label: "BONUS 3",
-      value: "₹5,000",
+      value: "£1,999",
       title: "Lifetime Recording Access",
       text: "Data science is a practice. Get lifetime access to every live session recording in 4K HD so you can re-watch the implementation steps whenever you need.",
       icon: <Video className="w-16 h-16 md:w-20 md:h-20 text-purple-600" strokeWidth={1.5} />,
@@ -37,9 +37,9 @@ const BonusSection = () => {
     {
       id: 4,
       label: "BONUS 4",
-      value: "Priceless",
+      value: "£1,999",
       title: "The Data Career Roadmap",
-      text: "Includes a resume overhaul guide for Data roles, LinkedIn networking scripts, and our internal portfolio-building blueprint to land ₹15LPA+ jobs.",
+      text: "Includes a resume overhaul guide for Data roles, LinkedIn networking scripts, and our internal portfolio-building blueprint to land six figure job.",
       icon: <Briefcase className="w-16 h-16 md:w-20 md:h-20 text-blue-600" strokeWidth={1.5} />,
       color: "from-blue-500",
       glow: "from-blue-500/10 to-cyan-500/5"

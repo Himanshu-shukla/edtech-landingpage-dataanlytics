@@ -72,7 +72,7 @@ const IrreplaceableSkillsSection = () => {
                 </div>
                 
                 <h3 className="text-2xl md:text-3xl font-black text-neutral-900 mb-4 mt-2 md:mt-6 flex items-center gap-3">
-                  <span className="text-emerald-700 font-black text-xs md:text-sm bg-emerald-50 px-2 py-1 rounded-md border border-emerald-100 uppercase tracking-tighter shadow-sm">Phase 0{benefit.id}</span>
+                  {/* <span className="text-emerald-700 font-black text-xs md:text-sm bg-emerald-50 px-2 py-1 rounded-md border border-emerald-100 uppercase tracking-tighter shadow-sm">Phase 0{benefit.id}</span> */}
                   {benefit.title}
                 </h3>
                 

@@ -66,7 +66,7 @@ const ComparisonSection = () => {
       ),
       good: (
         <>
-          <span className="text-neutral-900 font-bold">Consulting Blueprint:</span> Portfolio templates & LinkedIn frameworks to land ₹15LPA+ roles.
+          <span className="text-neutral-900 font-bold">Consulting Blueprint:</span> Portfolio templates & LinkedIn frameworks to land six figure roles.
         </>
       ),
     },

@@ -19,18 +19,27 @@ const countries = [
 
 export default function RegistrationModal({ isOpen, onClose }) {
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(countries[1]); // Default to India (+91)
+  // FIX 2: Default to UK (Index 0) instead of India
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]); 
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [errors, setErrors] = useState({});
   
-  // Loading state
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // Success State for Thank You View
   const [isSuccess, setIsSuccess] = useState(false);
-  
   const [apiError, setApiError] = useState(null);
 
-  // Reset state when modal opens/closes
+  // FIX 4: Prevent Background Scroll/Blink when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'; // Lock scroll
+    } else {
+      document.body.style.overflow = 'unset'; // Unlock scroll
+    }
+    return () => {
+      document.body.style.overflow = 'unset'; // Cleanup
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     if (isOpen) {
       setIsSuccess(false);
@@ -41,7 +50,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
     }
   }, [isOpen]);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (showCountryDropdown && !event.target.closest('.country-dropdown-container')) {
@@ -58,14 +66,26 @@ export default function RegistrationModal({ isOpen, onClose }) {
     e.preventDefault();
     const newErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = 'Full name is required';
+    // FIX 2: Name Validation (No digits allowed)
+    const nameRegex = /^[a-zA-Z\s]*$/;
+    if (!formData.name.trim()) {
+      newErrors.name = 'Full name is required';
+    } else if (!nameRegex.test(formData.name)) {
+      newErrors.name = 'Name should only contain letters';
+    }
+
+    // Email Validation
     if (!formData.email.trim()) {
       newErrors.email = 'Email address is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email';
     }
+
+    // Phone Validation
     if (!formData.phone.trim()) {
       newErrors.phone = 'Phone number is required';
+    } else if (formData.phone.length < 5) {
+      newErrors.phone = 'Phone number is too short';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -78,7 +98,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
       setApiError(null);
 
       const response = await fetch(
-        'http://localhost:8000/api/contact/strategy-call',
+        `${process.env.BACKEND_URL}/api/contact/strategy-call`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -92,13 +112,20 @@ export default function RegistrationModal({ isOpen, onClose }) {
         }
       );
 
-      const data = await response.json();
+      // FIX 3: Handle Non-JSON Responses (The "Unexpected token <" error)
+      const textResponse = await response.text();
+      let data;
+      try {
+        data = JSON.parse(textResponse);
+      } catch (err) {
+        // If parsing fails, it implies the server returned HTML (error page)
+        throw new Error("Server error. Please contact support or try again.");
+      }
 
       if (!response.ok) {
         throw new Error(data.error || 'Something went wrong');
       }
 
-      // API Success: Switch to Success View
       setIsSubmitting(false);
       setIsSuccess(true);
 
@@ -114,7 +141,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 font-sans">
           
-          {/* Darkened Blur Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -123,7 +149,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-md cursor-pointer transition-all"
           />
 
-          {/* Modal Container */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -132,15 +157,14 @@ export default function RegistrationModal({ isOpen, onClose }) {
             className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden z-10 border border-slate-100 flex flex-col max-h-[90vh]"
           >
             
-            {/* Close Button */}
+            {/* Close Button: Increased z-index and kept absolute */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors z-20"
+              className="absolute top-4 right-4 p-2 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors z-50"
             >
               <X className="w-5 h-5" />
             </button>
 
-            {/* Content Switcher: Form vs Success */}
             <AnimatePresence mode="wait">
               {isSuccess ? (
                 /* ---------------- SUCCESS VIEW ---------------- */
@@ -178,13 +202,14 @@ export default function RegistrationModal({ isOpen, onClose }) {
                 <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                   
                   {/* Premium Header */}
-                  <div className="px-8 pt-10 pb-6 bg-gradient-to-b from-slate-50 to-white border-b border-slate-100">
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 bg-white border border-slate-100 shadow-sm rounded-xl">
+                  {/* FIX 1: Added pr-12 to container to prevent text overlapping with close button */}
+                  <div className="px-8 pt-10 pb-6 bg-gradient-to-b from-slate-50 to-white border-b border-slate-100 relative">
+                    <div className="flex items-start gap-4 pr-12">
+                      <div className="p-3 bg-white border border-slate-100 shadow-sm rounded-xl shrink-0">
                         <BarChart3 className="w-8 h-8 text-emerald-600" />
                       </div>
                       <div>
-                        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
+                        <h2 className="text-2xl font-bold text-slate-900 tracking-tight leading-tight">
                           Secure Your Spot
                         </h2>
                         <p className="text-slate-500 text-sm mt-1">
@@ -193,7 +218,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
                       </div>
                     </div>
 
-                    {/* Value Props Pills */}
                     <div className="flex flex-wrap gap-2 mt-6">
                       <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-100">
                         <Sparkles className="w-3.5 h-3.5" /> 100% Placement Support
@@ -205,7 +229,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                   </div>
 
                   {/* Scrollable Form Body */}
-                  <div className="px-8 py-6 overflow-y-auto">
+                  <div className="px-8 py-6 overflow-y-auto max-h-[60vh]">
                     
                     {apiError && (
                       <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 text-sm rounded-lg flex items-center gap-2 animate-pulse">
@@ -228,6 +252,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                             className={`w-full bg-slate-50 border ${errors.name ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 py-3.5 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
                             value={formData.name}
                             onChange={(e) => {
+                              // Only update if it's not a digit (optional realtime block, or rely on submit validation)
                               setFormData({ ...formData, name: e.target.value });
                               if (errors.name) setErrors({ ...errors, name: null });
                             }}
@@ -257,7 +282,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                         {errors.email && <p className="text-red-500 text-xs font-semibold ml-1">{errors.email}</p>}
                       </div>
 
-                      {/* Phone Input with Country Code */}
+                      {/* Phone Input */}
                       <div className="space-y-1.5 country-dropdown-container">
                         <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Phone Number</label>
                         <div className="flex gap-3">
@@ -275,7 +300,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
                               <ChevronDown className={`w-4 h-4 text-slate-400 ml-auto transition-transform duration-200 ${showCountryDropdown ? 'rotate-180' : ''}`} />
                             </button>
 
-                            {/* Dropdown Menu */}
                             <AnimatePresence>
                               {showCountryDropdown && !isSubmitting && (
                                 <motion.div
@@ -312,11 +336,14 @@ export default function RegistrationModal({ isOpen, onClose }) {
                               disabled={isSubmitting}
                               className={`w-full h-[52px] bg-slate-50 border ${errors.phone ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
                               value={formData.phone}
+                              // FIX 2: Max Length Validation in Real-time
                               onChange={(e) => {
                                 const val = e.target.value.replace(/\D/g, '');
-                                setFormData({ ...formData, phone: val });
-                                if (errors.phone) setErrors({ ...errors, phone: null });
-                                if (apiError) setApiError(null);
+                                if (val.length <= 16) {
+                                  setFormData({ ...formData, phone: val });
+                                  if (errors.phone) setErrors({ ...errors, phone: null });
+                                  if (apiError) setApiError(null);
+                                }
                               }}
                             />
                           </div>
@@ -343,7 +370,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
                             </>
                           )}
                           
-                          {/* Shine Effect */}
                           <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
                         </button>
                         

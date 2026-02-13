@@ -21,11 +21,11 @@ const countries = [
 export default function RegistrationModal({ isOpen, onClose }) {
   // State for Main Phone Dropdown
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]); // Default UK (+44)
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
 
   // State for WhatsApp Dropdown
   const [showWhatsappDropdown, setShowWhatsappDropdown] = useState(false);
-  const [selectedWhatsappCountry, setSelectedWhatsappCountry] = useState(countries[0]); // Default UK (+44)
+  const [selectedWhatsappCountry, setSelectedWhatsappCountry] = useState(countries[0]);
 
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', whatsapp: '' });
   const [errors, setErrors] = useState({});
@@ -54,7 +54,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
       setFormData({ name: '', email: '', phone: '', whatsapp: '' });
       setErrors({});
       setApiError(null);
-      // Reset countries to default if needed, or keep last selection
       setSelectedCountry(countries[0]);
       setSelectedWhatsappCountry(countries[0]);
     }
@@ -63,11 +62,9 @@ export default function RegistrationModal({ isOpen, onClose }) {
   // Click Outside Listener for BOTH dropdowns
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Close Main Phone Dropdown
       if (showCountryDropdown && !event.target.closest('.country-dropdown-main')) {
         setShowCountryDropdown(false);
       }
-      // Close WhatsApp Dropdown
       if (showWhatsappDropdown && !event.target.closest('.country-dropdown-whatsapp')) {
         setShowWhatsappDropdown(false);
       }
@@ -104,10 +101,8 @@ export default function RegistrationModal({ isOpen, onClose }) {
       newErrors.phone = 'Phone number is too short';
     }
 
-    // WhatsApp Validation
-    if (!formData.whatsapp.trim()) {
-      newErrors.whatsapp = 'WhatsApp number is required';
-    } else if (formData.whatsapp.length < 5) {
+    // WhatsApp Validation (Now Optional)
+    if (formData.whatsapp.trim() && formData.whatsapp.length < 5) {
       newErrors.whatsapp = 'Invalid WhatsApp number';
     }
 
@@ -120,8 +115,14 @@ export default function RegistrationModal({ isOpen, onClose }) {
       setIsSubmitting(true);
       setApiError(null);
 
+      // Only append country code if the user actually entered a WhatsApp number
+      const finalWhatsapp = formData.whatsapp.trim() 
+        ? `${selectedWhatsappCountry.code}${formData.whatsapp}` 
+        : '';
+
       const response = await fetch(
-        `https://api.edtechinformative.uk/api/contact/strategy-call`,
+        // `https://api.edtechinformative.uk/api/contact/strategy-call`,
+        `http://localhost:8000/api/contact/strategy-call`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -129,7 +130,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
             name: formData.name,
             email: formData.email,
             phone: `${selectedCountry.code}${formData.phone}`,
-            whatsapp: `${selectedWhatsappCountry.code}${formData.whatsapp}`,
+            whatsapp: finalWhatsapp,
             source: 'data_analytics_landing_page',
             position: 'Data Analytics Mastery'
           })
@@ -264,7 +265,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
                           <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Full Name</label>
-
                         </div>
                         <div className="relative group">
                           <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
@@ -287,7 +287,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
                           <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Work Email</label>
-
                         </div>
                         <div className="relative group">
                           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
@@ -311,7 +310,6 @@ export default function RegistrationModal({ isOpen, onClose }) {
                       <div className="space-y-1.5 country-dropdown-main">
                         <div className="flex items-center gap-2">
                           <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Phone Number</label>
-
                         </div>
                         <div className="flex gap-3">
 
@@ -322,7 +320,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                               disabled={isSubmitting}
                               onClick={() => {
                                 setShowCountryDropdown(!showCountryDropdown);
-                                setShowWhatsappDropdown(false); // Close other dropdown
+                                setShowWhatsappDropdown(false);
                               }}
                               className="flex items-center gap-2 h-[52px] px-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-all min-w-[110px] text-slate-800 font-medium focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 outline-none disabled:opacity-60 disabled:cursor-not-allowed"
                             >
@@ -379,10 +377,10 @@ export default function RegistrationModal({ isOpen, onClose }) {
                         {errors.phone && <p className="text-red-500 text-xs font-semibold ml-1">{errors.phone}</p>}
                       </div>
 
-                      {/* WhatsApp Input with Independent Dropdown */}
+                      {/* WhatsApp Input with Independent Dropdown (Optional) */}
                       <div className="space-y-1.5 country-dropdown-whatsapp">
                         <div className="flex items-center gap-2">
-                          <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">WhatsApp Number</label>
+                          <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">WhatsApp Number <span className="text-[10px] text-slate-400 font-normal lowercase">(Optional)</span></label>
                           {/* Tooltip */}
                           <div className="group/tooltip relative">
                             <Info className="w-4 h-4 text-emerald-500 cursor-help" />
@@ -404,7 +402,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                               disabled={isSubmitting}
                               onClick={() => {
                                 setShowWhatsappDropdown(!showWhatsappDropdown);
-                                setShowCountryDropdown(false); // Close other dropdown
+                                setShowCountryDropdown(false);
                               }}
                               className="flex items-center gap-2 h-[52px] px-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-all min-w-[110px] text-slate-800 font-medium focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 outline-none disabled:opacity-60 disabled:cursor-not-allowed"
                             >
@@ -444,7 +442,7 @@ export default function RegistrationModal({ isOpen, onClose }) {
                             <MessageCircle className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500 group-focus-within:text-emerald-600 transition-colors" />
                             <input
                               type="tel"
-                              placeholder="WhatsApp Number"
+                              placeholder="9876543210"
                               disabled={isSubmitting}
                               className={`w-full h-[52px] bg-slate-50 border ${errors.whatsapp ? 'border-red-300 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-50'} rounded-xl pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 text-slate-800 font-medium focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed`}
                               value={formData.whatsapp}

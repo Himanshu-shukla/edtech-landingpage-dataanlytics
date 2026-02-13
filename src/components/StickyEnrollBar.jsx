@@ -110,7 +110,7 @@ const StickyEnrollBar = ({ onVisibilityChange }) => {
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <span className="text-2xl md:text-3xl font-extrabold text-indigo-900">FREE</span>
-                <span className="text-sm text-neutral-400 line-through">£2,999</span>
+                <span className="text-sm text-neutral-400 line-through">£299</span>
                 <span className="bg-red-600 text-white text-xs px-2 py-1 rounded-full">🔥 Limited Offer</span>
               </div>
               <p className="text-sm font-semibold text-neutral-700">

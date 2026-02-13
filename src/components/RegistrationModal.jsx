@@ -121,8 +121,8 @@ export default function RegistrationModal({ isOpen, onClose }) {
         : '';
 
       const response = await fetch(
-        // `https://api.edtechinformative.uk/api/contact/strategy-call`,
-        `http://localhost:8000/api/contact/strategy-call`,
+        `https://api.edtechinformative.uk/api/contact/strategy-call`,
+        // `http://localhost:8000/api/contact/strategy-call`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

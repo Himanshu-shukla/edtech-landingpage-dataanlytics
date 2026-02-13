@@ -83,7 +83,7 @@ const ExclusiveBonusesSection = () => {
               With $2,500 In Bonuses
             </span>
           </h2>
-          <p className="text-neutral-500 text-lg md:text-xl font-medium max-w-2xl mx-auto">Fast-track your transition into Senior Data roles with these premium toolkits.</p>
+          <p className="text-neutral-700 text-lg md:text-xl font-medium max-w-2xl mx-auto">Fast-track your transition into Senior Data roles with these premium toolkits.</p>
         </motion.div>
 
         <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8">

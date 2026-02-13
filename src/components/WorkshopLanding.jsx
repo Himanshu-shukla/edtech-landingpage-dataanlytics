@@ -34,7 +34,7 @@ const WorkshopLanding = () => {
     </span>
   </h1>
 
-  <p className="text-neutral-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+  <p className="text-neutral-700 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
     Stop drowning in messy spreadsheets. We build 3+ production-ready dashboards live — Sales Forecasting, Marketing ROI, and Customer Churn.
   </p>
 </motion.div>

@@ -86,7 +86,7 @@ const ProgramsSection = () => {
           <h2 className="text-3xl md:text-5xl font-black text-neutral-900 mb-4 tracking-tight">
             The  <span className="text-emerald-600">Analytics Roadmap</span>
           </h2>
-          <p className="text-neutral-500 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-neutral-700 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Follow a step-by-step path from Excel user to Strategic Data Architect. No fluff — only <span className="text-neutral-900 font-bold">industrial-grade insights</span>.
           </p>
         </div>

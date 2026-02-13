@@ -159,7 +159,7 @@ const FoundryHero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="text-neutral-600 text-lg md:text-xl font-medium max-w-3xl mx-auto leading-relaxed mb-12"
+          className="text-neutral-900 text-lg md:text-xl font-medium max-w-3xl mx-auto leading-relaxed mb-12"
         >
           Master the industry's most in-demand tech stack including Python, SQL, and Machine Learning. Get trained by experts and become job-ready in just 6 months.
         </motion.p>
